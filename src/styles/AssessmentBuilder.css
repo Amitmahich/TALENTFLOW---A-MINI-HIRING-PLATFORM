@@ -1,0 +1,212 @@
+/* Container */
+.assessment-builder {
+  background: #f9fafb;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: auto;
+  font-family: "Inter", sans-serif;
+}
+
+/* Section */
+.assessment-section {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.assessment-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Header */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.section-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.section-title-input {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  width: 70%;
+}
+
+.section-actions button {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.section-actions button:hover {
+  background: linear-gradient(90deg, #1e40af, #2563eb);
+  transform: translateY(-2px);
+}
+
+/* Question Card */
+.question-card {
+  background: #f3f4f6;
+  padding: 1rem;
+  border-radius: 0.6rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid #10b981;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.question-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.question-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Options */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.option-input {
+  width: 95%;
+  padding: 0.4rem 0.7rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+}
+
+.add-option-btn {
+  margin-top: 0.5rem;
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.add-option-btn:hover {
+  background: linear-gradient(90deg, #d97706, #b45309);
+  transform: translateY(-1px);
+}
+
+/* Add Question / Section Buttons */
+.add-question-btn,
+.add-section-btn {
+  background: linear-gradient(90deg, #10b981, #059669);
+  color: #fff;
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  transition: all 0.2s;
+}
+.add-question-btn:hover,
+.add-section-btn:hover {
+  background: linear-gradient(90deg, #059669, #047857);
+  transform: translateY(-1px);
+}
+
+/* Save Assessment Button */
+.save-assessment-btn {
+  background: linear-gradient(90deg, #6366f1, #4f46e5);
+  color: #fff;
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 1rem;
+  transition: all 0.2s;
+  display: inline-block;
+}
+.save-assessment-btn:hover {
+  background: linear-gradient(90deg, #4f46e5, #4338ca);
+  transform: translateY(-1px);
+}
+.save-assessment-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Preview Section */
+.assessment-preview {
+  margin-top: 2rem;
+}
+.preview-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 1rem;
+}
+.preview-section {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.preview-question {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 500;
+  color: #1f2937;
+}
+.preview-question:last-child {
+  border-bottom: none;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .assessment-builder {
+    padding: 1rem;
+  }
+  .section-title-input {
+    font-size: 1.05rem;
+  }
+  .question-input,
+  .option-input {
+    font-size: 0.95rem;
+  }
+  .add-question-btn,
+  .add-section-btn,
+  .add-option-btn,
+  .save-assessment-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}

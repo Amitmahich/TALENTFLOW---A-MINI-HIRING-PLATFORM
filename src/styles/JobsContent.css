@@ -1,0 +1,378 @@
+.jobs-content {
+  padding: 20px;
+  position: relative;
+}
+
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.job-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.job-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+ 
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.job-card h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #222;
+}
+
+/* Job tags */
+.job-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+.job-tag {
+  background: #eef2f7;
+  color: #333;
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+/* Candidate applied */
+.job-stats {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 4px;
+}
+
+/* Status badge */
+.status {
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 12px;
+  width: fit-content;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.status.active {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+.status.archived {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+/* Actions (Edit + Archive) */
+.job-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: auto;
+}
+.job-actions button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s ease;
+}
+.job-actions .edit-btn {
+  background: #007bff;
+  color: white;
+}
+.job-actions .edit-btn:hover {
+  background: #0056b3;
+}
+.job-actions .archive-btn {
+  background: #dc3545;
+  color: white;
+}
+.job-actions .archive-btn:hover {
+  background: #a71d2a;
+}
+
+/* Loading & Empty states */
+.loading,
+.empty {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  margin-top: 40px;
+}
+
+.loading {
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* FAB */
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: background 0.2s ease;
+}
+
+.fab:hover {
+  background-color: #0056b3;
+}
+
+/* Overlay & Modal */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 360px;
+  max-width: 90%;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal h2 {
+  margin-bottom: 12px;
+}
+
+.modal input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 0.95rem;
+}
+
+/* Tags input inside modal */
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.tag {
+  background: #e2e3e5;
+  padding: 4px 8px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+}
+.tag button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: bold;
+  color: #555;
+}
+.tag button:hover {
+  color: #000;
+}
+
+/* Modal actions */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+.actions button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.actions button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+.actions button[type="button"] {
+  background-color: #ccc;
+}
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal content */
+.modal-content {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Close button */
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+}
+
+.modal-close-btn:hover {
+  background: #b91c1c;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .job-card {
+    padding: 12px;
+  }
+  .job-header {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .modal {
+    width: 90%;
+    padding: 16px;
+  }
+}
+/* Search & Filter Bar */
+.jobs-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+  outline: none;
+}
+
+.status-filter {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.status-filter:hover {
+  border-color: #007bff;
+}
+
+.status-filter:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .jobs-topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input,
+  .status-filter {
+    width: 100%;
+  }
+}
+.applied-btn {
+  background: #ccc;
+  color: #e31d1d;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: not-allowed;
+  font-weight: bold;
+}

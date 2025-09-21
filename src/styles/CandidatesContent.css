@@ -1,0 +1,96 @@
+/* CandidatesContent.css */
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.filters input,
+.filters select {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.candidates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.candidate-card {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.candidate-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.candidate-card h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.candidate-card p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Job name */
+.candidate-job {
+  font-weight: bold;
+  font-size: 0.95rem;
+  color: #222;
+  margin-bottom: 0.25rem;
+}
+
+/* Status badge */
+.candidate-status {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+}
+
+.candidate-status.Applied {
+  background-color: #6c63ff;
+}
+
+.candidate-status.Screen {
+  background-color: #ff9800;
+}
+
+.candidate-status.Tech {
+  background-color: #2196f3;
+}
+
+.candidate-status.Offer {
+  background-color: #4caf50;
+}
+
+.candidate-status.Hired {
+  background-color: #00bcd4;
+}
+
+.candidate-status.Rejected {
+  background-color: #f44336;
+}
+
+@media (max-width: 600px) {
+  .candidates-grid {
+    grid-template-columns: 1fr;
+  }
+}
