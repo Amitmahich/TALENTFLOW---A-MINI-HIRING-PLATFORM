@@ -227,5 +227,24 @@ The application uses Dexie.js (IndexedDB) with the following tables:
 For support and questions, please open an issue in the repository or contact the development team.
 
 ---
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/d7bb3516-b063-4cd5-8351-cbaa341e10b9" />
+
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/18be806f-62f5-42c0-a287-dfde9a321826" />
+
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/2afbf55f-b49f-4191-b58d-d99efb1c0e0d" />
+
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/127f4eb9-13a1-4403-9e12-e9d931e1ef10" />
+
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/aefb7cfd-9ce4-4f91-ba46-26b68c61c80a" />
+
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/cb32b23e-9f5d-4139-9879-25e77325cdad" />
+
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/aab9f54f-e09b-4e18-93c6-8920133d4e04" />
+
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/092db5bd-17d6-4e02-835d-43b34a463986" />
+
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/807e32cb-1dc3-4399-a05e-16bad8819b11" />
+
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/ec88ca8b-cb88-45b4-afb6-6baa499eac64" />
 
 **Note**: This is a demo/prototype application. For production use, consider implementing proper backend infrastructure, authentication, and security measures.
