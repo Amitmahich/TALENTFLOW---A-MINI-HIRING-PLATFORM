@@ -9,7 +9,7 @@ export default function CandidateDashboard() {
   const [activeTab, setActiveTab] = useState("jobs");
   const [jobs, setJobs] = useState([]);
   const [appliedJobs, setAppliedJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [showApplyModal, setShowApplyModal] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
@@ -113,27 +113,33 @@ export default function CandidateDashboard() {
       </nav>
 
       <div className="dashboard-content">
-        {activeTab === "jobs" && (
-          <JobsTab
-            jobs={availableJobs}
-            appliedJobs={appliedJobs}
-            openApplyModal={openApplyModal}
-            navigate={navigate}
-            candidateInput={candidateInput}
-          />
-        )}
-        {activeTab === "applied" && (
-          <AppliedTab
-            appliedJobs={appliedJobs}
-            navigate={navigate}
-            candidateInput={candidateInput}
-          />
-        )}
-        {activeTab === "profile" && (
-          <ProfileTab
-            candidateInput={candidateInput}
-            setCandidateInput={setCandidateInput}
-          />
+        {loading ? (
+          <p className="loading-message">⏳ Loading jobs...</p> // ✅ used loading
+        ) : (
+          <>
+            {activeTab === "jobs" && (
+              <JobsTab
+                jobs={availableJobs}
+                appliedJobs={appliedJobs}
+                openApplyModal={openApplyModal}
+                navigate={navigate}
+                candidateInput={candidateInput}
+              />
+            )}
+            {activeTab === "applied" && (
+              <AppliedTab
+                appliedJobs={appliedJobs}
+                navigate={navigate}
+                candidateInput={candidateInput}
+              />
+            )}
+            {activeTab === "profile" && (
+              <ProfileTab
+                candidateInput={candidateInput}
+                setCandidateInput={setCandidateInput}
+              />
+            )}
+          </>
         )}
       </div>
 
