@@ -17,8 +17,7 @@ export default function AssignmentPage() {
         const res = await fetch(`/api/assessments/${jobId}`);
         const data = await res.json();
         setAssessment(data);
-      } catch (err) {
-      }
+      } catch (err) {}
     };
     fetchAssessment();
   }, [jobId]);
@@ -92,10 +91,22 @@ export default function AssignmentPage() {
   };
 
   if (!assessment) return <p className="loading">⏳ Loading assessment...</p>;
+  // Agar assessment hai lekin sections khali hain
+  if (!assessment.sections || assessment.sections.length === 0) {
+    return (
+      <div className="assignment-container">
+        <h2>{job?.title || "Assignment"}</h2>
+        <p className="no-assignment">
+          📭 No assignment available for this job.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="assignment-container">
       <h2>{job?.title || "Assignment"}</h2>
+
       {assessment.sections.map((section) => (
         <div key={section.id} className="section-card">
           <h3>{section.title}</h3>
