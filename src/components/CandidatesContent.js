@@ -68,19 +68,25 @@ export default function CandidatesContent() {
       </div>
 
       <div className="candidates-grid">
-        {filteredCandidates.map((c) => (
-          <div
-            className="candidate-card"
-            key={c.id}
-            onClick={() => handleCardClick(c.jobId)}
-            style={{ cursor: "pointer" }}
-          >
-            <h3>{c.name}</h3>
-            <p>Email: {c.email}</p>
-            <p>Status: {c.status}</p>
-            <p>Job: {getJobTitle(c.jobId)}</p>
+        {filteredCandidates.length === 0 ? (
+          <div className="empty-state">
+            <p>No candidates have applied yet.</p>
           </div>
-        ))}
+        ) : (
+          filteredCandidates.map((c) => (
+            <div
+              className="candidate-card"
+              key={c.id}
+              onClick={() => handleCardClick(c.jobId)}
+              style={{ cursor: "pointer" }}
+            >
+              <h3>{c.name}</h3>
+              <p>Email: {c.email}</p>
+              <p>Status: {c.status}</p>
+              <p>Job: {getJobTitle(c.jobId)}</p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
