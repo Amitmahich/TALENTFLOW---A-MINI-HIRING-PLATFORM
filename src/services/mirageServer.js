@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import { db } from "../db";
 import { seedData } from "../seedData";
 
-export function makeServer() {
+export async function makeServer() {
   const server = createServer({
     routes() {
       this.namespace = "api";
@@ -33,6 +33,9 @@ export function makeServer() {
       // ======================
       this.post("/candidates", async (_, request) => {
         const attrs = JSON.parse(request.requestBody);
+        // Normalize stage/status for UI filters
+        attrs.stage = attrs.stage || "Applied";
+        attrs.status = attrs.status || attrs.stage;
 
         // Check if candidate already exists for this job
         let existing = await db.candidates
@@ -43,14 +46,13 @@ export function makeServer() {
 
         if (existing) {
           // update instead of duplicate insert
-          existing = { ...existing, ...attrs };
+          existing = { ...existing, ...attrs, stage: attrs.stage, status: attrs.status };
           await db.candidates.put(existing);
           return existing;
         }
 
         // new candidate
         attrs.id = nanoid();
-        attrs.stage = attrs.stage || "Applied";
         await db.candidates.add(attrs);
         return attrs;
       });
@@ -121,6 +123,6 @@ export function makeServer() {
     },
   });
 
-  seedData(); // start hote hi data inject karega
+  await seedData(); // ensure data is seeded before app queries IndexedDB
   return server;
 }

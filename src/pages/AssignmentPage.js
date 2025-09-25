@@ -82,6 +82,7 @@ export default function AssignmentPage() {
         jobId,
         ...candidate,
         stage: "Completed",
+        status: "Completed",
         score,
       }),
     });
