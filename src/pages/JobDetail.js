@@ -7,6 +7,14 @@ import "../styles/JobDetail.css";
 export default function JobDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const allowedStatuses = [
+    "applied",
+    "screen",
+    "tech",
+    "offer",
+    "hired",
+    "rejected",
+  ];
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -60,11 +68,7 @@ export default function JobDetail() {
         if (status === "screening") status = "screen";
         else if (status === "interviewing") status = "tech";
         else if (status === "offer made") status = "offer";
-        else if (status === "applied") status = "applied";
-        else if (status === "hired") status = "hired";
-        else if (status === "rejected") status = "rejected";
-
-        if (!cols[status]) cols[status] = [];
+        if (!allowedStatuses.includes(status)) status = "applied";
         cols[status].push(c);
       });
 
@@ -144,8 +148,11 @@ export default function JobDetail() {
       };
 
       updatedCandidates.forEach((c) => {
-        const status = c.status?.toLowerCase() || "applied";
-        if (!updatedColumns[status]) updatedColumns[status] = [];
+        let status = c.status?.toLowerCase() || "applied";
+        if (status === "screening") status = "screen";
+        else if (status === "interviewing") status = "tech";
+        else if (status === "offer made") status = "offer";
+        if (!allowedStatuses.includes(status)) status = "applied";
         updatedColumns[status].push(c);
       });
 
@@ -221,7 +228,7 @@ export default function JobDetail() {
 
       <div className="kanban-board">
         <DragDropContext onDragEnd={onDragEnd}>
-          {Object.entries(columns).map(([colName, items]) => (
+          {allowedStatuses.map((colName) => (
             <Droppable droppableId={colName} key={colName}>
               {(provided, snapshot) => (
                 <div
@@ -232,11 +239,11 @@ export default function JobDetail() {
                   {...provided.droppableProps}
                 >
                   <h3 className="column-title">
-                    {colName} <span className="count">({items.length})</span>
+                    {colName} <span className="count">({(columns[colName] || []).length})</span>
                   </h3>
 
                   <div className="candidate-list">
-                    {items.map((candidate, index) => (
+                    {(columns[colName] || []).map((candidate, index) => (
                       <Draggable
                         draggableId={candidate.id.toString()}
                         index={index}

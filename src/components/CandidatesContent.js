@@ -10,6 +10,16 @@ export default function CandidatesContent() {
   const [statusFilter, setStatusFilter] = useState("All");
   const navigate = useNavigate();
 
+  const allowedStatuses = ["applied", "screen", "tech", "offer", "hired", "rejected"];
+  const normalizeStatus = (status) => {
+    const s = (status || "").toLowerCase();
+    if (s === "screening") return "screen";
+    if (s === "interviewing") return "tech";
+    if (s === "offer made") return "offer";
+    if (allowedStatuses.includes(s)) return s;
+    return "applied";
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const [cRes, jRes] = await Promise.all([
@@ -24,18 +34,19 @@ export default function CandidatesContent() {
     fetchData();
   }, []);
 
-  // Filter candidates based on search and status
+  // Filter candidates based on search and normalized status
   const filteredCandidates = candidates.filter((c) => {
     const matchesName = c.name.toLowerCase().includes(search.toLowerCase());
-    const matchesStatus = statusFilter === "All" || c.status === statusFilter;
+    const normalized = normalizeStatus(c.status);
+    const matchesStatus = statusFilter === "All" || normalized === statusFilter;
     return matchesName && matchesStatus;
   });
 
-  // Get unique statuses dynamically
-  const statuses = [
-    "All",
-    ...Array.from(new Set(candidates.map((c) => c.status))),
-  ];
+  // Allowed statuses only (present in data), plus All
+  const presentStatuses = Array.from(
+    new Set(candidates.map((c) => normalizeStatus(c.status)))
+  ).filter((s) => allowedStatuses.includes(s));
+  const statuses = ["All", ...allowedStatuses.filter((s) => presentStatuses.includes(s))];
 
   // Helper to get job title
   const getJobTitle = (jobId) => {
@@ -86,7 +97,7 @@ export default function CandidatesContent() {
             >
               <h3>{c.name}</h3>
               <p>Email: {c.email}</p>
-              <p>Status: {c.status}</p>
+              <p>Status: {normalizeStatus(c.status)}</p>
               <p>Job: {getJobTitle(c.jobId)}</p>
             </div>
           ))
