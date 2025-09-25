@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../db"; // Dexie DB
+// Use Mirage API instead of direct DB
 import "../styles/JobsContent.css";
 import { seedData } from "../../src/seedData";
 
@@ -47,16 +47,20 @@ export default function JobsContent() {
   const fetchJobs = async () => {
     try {
       setLoading(true);
-      const allJobs = await db.jobs.toArray();
-      const jobsWithCount = await Promise.all(
-        allJobs.map(async (job) => {
-          const candidates = await db.candidates
-            .where("jobId")
-            .equals(job.id)
-            .toArray();
-          return { ...job, candidates: candidates.length };
-        })
-      );
+      const res = await fetch("/api/jobs");
+      const data = await res.json();
+      // Assume server returns { jobs, total }
+      // Enrich with candidate counts by calling candidates list and grouping client-side
+      const candRes = await fetch("/api/candidates");
+      const candData = await candRes.json();
+      const candidateCounts = (candData.candidates || []).reduce((acc, c) => {
+        acc[c.jobId] = (acc[c.jobId] || 0) + 1;
+        return acc;
+      }, {});
+      const jobsWithCount = (data.jobs || []).map((j) => ({
+        ...j,
+        candidates: candidateCounts[j.id] || 0,
+      }));
       setJobs(jobsWithCount);
     } catch (err) {
       console.error("Failed to fetch jobs:", err);
@@ -70,8 +74,8 @@ export default function JobsContent() {
   // }, []);
   useEffect(() => {
     const init = async () => {
-      await seedData(); // Seed jobs if DB empty
-      await fetchJobs(); // Fetch jobs to display
+      await seedData();
+      await fetchJobs();
     };
     init();
   }, []);
@@ -109,7 +113,11 @@ export default function JobsContent() {
         location,
         workType,
       };
-      await db.jobs.update(editJobId, updatedJob);
+      await fetch(`/api/jobs/${editJobId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedJob),
+      });
       await fetchJobs();
       resetForm();
       setShowForm(false);
@@ -133,7 +141,11 @@ export default function JobsContent() {
       order: Date.now(),
     };
 
-    await db.jobs.add(newJob);
+    await fetch("/api/jobs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newJob),
+    });
     await fetchJobs();
     resetForm();
     setShowForm(false);
@@ -152,9 +164,7 @@ export default function JobsContent() {
   };
 
   const toggleArchive = async (id) => {
-    const job = await db.jobs.get(id);
-    const newStatus = job.status === "active" ? "archived" : "active";
-    await db.jobs.update(id, { status: newStatus });
+    await fetch(`/api/jobs/${id}/toggle-archive`, { method: "POST" });
     await fetchJobs();
   };
 

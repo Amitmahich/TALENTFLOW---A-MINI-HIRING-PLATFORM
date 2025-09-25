@@ -16,6 +16,13 @@ export async function makeServer() {
         return { jobs, total: jobs.length };
       });
 
+      // Get a single job by id
+      this.get("/jobs/:id", async (_, request) => {
+        const id = request.params.id;
+        const job = await db.jobs.get(Number(id) || id);
+        return job || {};
+      });
+
       this.get("/candidate/jobs", async () => {
         const jobs = await db.jobs.where("status").equals("active").toArray();
         return { jobs, total: jobs.length };
@@ -28,9 +35,32 @@ export async function makeServer() {
         return attrs;
       });
 
+      // Update a job by id
+      this.put("/jobs/:id", async (_, request) => {
+        const id = request.params.id;
+        const attrs = JSON.parse(request.requestBody);
+        await db.jobs.update(Number(id) || id, attrs);
+        const updated = await db.jobs.get(Number(id) || id);
+        return updated;
+      });
+
+      // Toggle archive (status) helper
+      this.post("/jobs/:id/toggle-archive", async (_, request) => {
+        const id = request.params.id;
+        const job = await db.jobs.get(Number(id) || id);
+        if (!job) return {};
+        const newStatus = job.status === "active" ? "archived" : "active";
+        await db.jobs.update(Number(id) || id, { status: newStatus });
+        return { ...job, status: newStatus };
+      });
+
       // ======================
       // Candidates
       // ======================
+      this.get("/candidates", async () => {
+        const list = await db.candidates.toArray();
+        return { candidates: list, total: list.length };
+      });
       this.post("/candidates", async (_, request) => {
         const attrs = JSON.parse(request.requestBody);
         // Normalize stage/status for UI filters
@@ -55,6 +85,14 @@ export async function makeServer() {
         attrs.id = nanoid();
         await db.candidates.add(attrs);
         return attrs;
+      });
+
+      this.put("/candidates/:id", async (_, request) => {
+        const id = request.params.id;
+        const attrs = JSON.parse(request.requestBody);
+        await db.candidates.update(id, attrs);
+        const updated = await db.candidates.get(id);
+        return updated;
       });
 
       this.get("/candidates/:email", async (_, request) => {

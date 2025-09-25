@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../db";
+// Use Mirage API instead of direct DB
 import "../styles/CandidatesContent.css";
 
 export default function CandidatesContent() {
@@ -12,10 +12,14 @@ export default function CandidatesContent() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const candidatesData = await db.candidates.toArray();
-      const jobsData = await db.jobs.toArray();
-      setCandidates(candidatesData);
-      setJobs(jobsData);
+      const [cRes, jRes] = await Promise.all([
+        fetch("/api/candidates"),
+        fetch("/api/jobs"),
+      ]);
+      const cJson = await cRes.json();
+      const jJson = await jRes.json();
+      setCandidates(cJson.candidates || []);
+      setJobs(jJson.jobs || []);
     };
     fetchData();
   }, []);

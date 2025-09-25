@@ -2,7 +2,6 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AssessmentBuilder from "../components/AssessmentBuilder";
-import { db } from "../db";
 import "../styles/JobDetail.css";
 
 export default function JobDetail() {
@@ -24,7 +23,9 @@ export default function JobDetail() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const jobs = await db.jobs.toArray();
+      const jobsRes = await fetch("/api/jobs");
+      const jobsJson = await jobsRes.json();
+      const jobs = jobsJson.jobs || [];
 
       const foundJob =
         jobs.find((j) => j.slug?.toLowerCase() === slug.toLowerCase()) ||
@@ -48,10 +49,11 @@ export default function JobDetail() {
       };
 
       // Fetch candidates
-      const candidates = await db.candidates
-        .where("jobId")
-        .equals(foundJob.id)
-        .toArray();
+      const candRes = await fetch("/api/candidates");
+      const candJson = await candRes.json();
+      const candidates = (candJson.candidates || []).filter(
+        (c) => c.jobId === foundJob.id
+      );
 
       candidates.forEach((c) => {
         let status = c.status?.toLowerCase() || "applied";
@@ -73,11 +75,9 @@ export default function JobDetail() {
       setJob(foundJob);
 
       // Check if assignment exists
-      const existingAssignment = await db.assessments
-        .where("jobId")
-        .equals(foundJob.id)
-        .first();
-      setAssignmentExists(!!existingAssignment);
+      const assessRes = await fetch(`/api/assessments/${foundJob.id}`);
+      const existingAssessment = await assessRes.json();
+      setAssignmentExists(!!existingAssessment && !!existingAssessment.sections);
 
       setLoading(false);
     };
@@ -121,13 +121,18 @@ export default function JobDetail() {
 
     try {
       // ✅ Update in IndexedDB using lowercase status
-      await db.candidates.update(moved.id, { status: moved.status });
+      await fetch(`/api/candidates/${moved.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: moved.status }),
+      });
 
       // Refresh columns from DB to ensure accurate counts
-      const updatedCandidates = await db.candidates
-        .where("jobId")
-        .equals(job.id)
-        .toArray();
+      const cRes = await fetch("/api/candidates");
+      const cJson = await cRes.json();
+      const updatedCandidates = (cJson.candidates || []).filter(
+        (c) => c.jobId === job.id
+      );
 
       const updatedColumns = {
         applied: [],

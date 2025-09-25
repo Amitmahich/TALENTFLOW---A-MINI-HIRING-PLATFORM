@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { db } from "../../db";
+// Use Mirage API instead of direct DB
 
 export default function AppliedTab({ appliedJobs, navigate, candidateInput }) {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
     const fetchJobs = async () => {
-      const jobsData = await db.jobs.toArray();
-      setJobs(jobsData);
+      const res = await fetch("/api/jobs");
+      const data = await res.json();
+      setJobs(data.jobs || []);
     };
     fetchJobs();
   }, []);
