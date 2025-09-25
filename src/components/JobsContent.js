@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// Use Mirage API instead of direct DB
-import "../styles/JobsContent.css";
 import { seedData } from "../../src/seedData";
-
+import "../styles/JobsContent.css";
 
 export default function JobsContent() {
   const navigate = useNavigate();
@@ -49,8 +47,6 @@ export default function JobsContent() {
       setLoading(true);
       const res = await fetch("/api/jobs");
       const data = await res.json();
-      // Assume server returns { jobs, total }
-      // Enrich with candidate counts by calling candidates list and grouping client-side
       const candRes = await fetch("/api/candidates");
       const candData = await candRes.json();
       const candidateCounts = (candData.candidates || []).reduce((acc, c) => {

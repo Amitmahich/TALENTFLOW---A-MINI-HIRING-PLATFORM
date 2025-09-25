@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// Use Mirage API instead of direct DB
 
 export default function AppliedTab({ appliedJobs, navigate, candidateInput }) {
   const [jobs, setJobs] = useState([]);

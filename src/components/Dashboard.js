@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { db } from "../db"; // Ensure your db is correctly exported
+import { db } from "../db";
 import "../styles/Dashboard.css";
 
 export default function Dashboard({ hrName = "HR Manager" }) {

@@ -81,7 +81,9 @@ export default function JobDetail() {
       // Check if assignment exists
       const assessRes = await fetch(`/api/assessments/${foundJob.id}`);
       const existingAssessment = await assessRes.json();
-      setAssignmentExists(!!existingAssessment && !!existingAssessment.sections);
+      setAssignmentExists(
+        !!existingAssessment && !!existingAssessment.sections
+      );
 
       setLoading(false);
     };
@@ -124,7 +126,6 @@ export default function JobDetail() {
     }
 
     try {
-      // ✅ Update in IndexedDB using lowercase status
       await fetch(`/api/candidates/${moved.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -239,7 +240,10 @@ export default function JobDetail() {
                   {...provided.droppableProps}
                 >
                   <h3 className="column-title">
-                    {colName} <span className="count">({(columns[colName] || []).length})</span>
+                    {colName}{" "}
+                    <span className="count">
+                      ({(columns[colName] || []).length})
+                    </span>
                   </h3>
 
                   <div className="candidate-list">

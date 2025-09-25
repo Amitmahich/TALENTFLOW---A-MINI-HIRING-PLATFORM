@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// Use Mirage API instead of direct DB
+
 import "../styles/CandidatesContent.css";
 
 export default function CandidatesContent() {
@@ -10,7 +10,14 @@ export default function CandidatesContent() {
   const [statusFilter, setStatusFilter] = useState("All");
   const navigate = useNavigate();
 
-  const allowedStatuses = ["applied", "screen", "tech", "offer", "hired", "rejected"];
+  const allowedStatuses = [
+    "applied",
+    "screen",
+    "tech",
+    "offer",
+    "hired",
+    "rejected",
+  ];
   const normalizeStatus = (status) => {
     const s = (status || "").toLowerCase();
     if (s === "screening") return "screen";
@@ -46,7 +53,10 @@ export default function CandidatesContent() {
   const presentStatuses = Array.from(
     new Set(candidates.map((c) => normalizeStatus(c.status)))
   ).filter((s) => allowedStatuses.includes(s));
-  const statuses = ["All", ...allowedStatuses.filter((s) => presentStatuses.includes(s))];
+  const statuses = [
+    "All",
+    ...allowedStatuses.filter((s) => presentStatuses.includes(s)),
+  ];
 
   // Helper to get job title
   const getJobTitle = (jobId) => {
